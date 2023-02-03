@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "neuraltext"
+  site-url: "https://xrsrke.github.io/neuraltext"
+  description: "Yup. Translate brain activity to text"
+  repo-branch: main
+  repo-url: "https://github.com/xrsrke/neuraltext"
