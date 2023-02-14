@@ -5,4 +5,7 @@ d = { 'settings': { 'branch': 'main',
                 'doc_host': 'https://xrsrke.github.io',
                 'git_url': 'https://github.com/xrsrke/neuraltext',
                 'lib_path': 'neuraltext'},
-  'syms': {'neuraltext.core': {'neuraltext.core.foo': ('core.html#foo', 'neuraltext/core.py')}}}
+  'syms': { 'neuraltext.core': {'neuraltext.core.foo': ('core.html#foo', 'neuraltext/core.py')},
+            'neuraltext.model': { 'neuraltext.model.RNN': ('model.html#rnn', 'neuraltext/model.py'),
+                                  'neuraltext.model.RNN.__init__': ('model.html#rnn.__init__', 'neuraltext/model.py'),
+                                  'neuraltext.model.RNN.forward': ('model.html#rnn.forward', 'neuraltext/model.py')}}}
