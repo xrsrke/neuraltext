@@ -129,3 +129,5 @@ dmypy.json
 .pyre/
 _proc
 _proc/*
+data
+drafts
