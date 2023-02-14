@@ -10,7 +10,7 @@ import torch
 import torch.nn as nn
 from torchtyping import TensorType
 
-# %% ../nbs/12_model.ipynb 5
+# %% ../nbs/12_model.ipynb 6
 class RNN(nn.Module):
     """The Decoder Neural Signal."""
     def __init__(
