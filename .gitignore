@@ -132,3 +132,5 @@ _proc/*
 data
 drafts
 .DS_Store
+.vscode
+.vscode/*
