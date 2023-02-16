@@ -24,7 +24,7 @@ class NeuralCharacterDataset(Dataset):
             
             for item in items:
                 xs.append(letter)
-                ys.append(torch.tensor(item))
+                ys.append(torch.tensor(item).float())
         
         self.xs: List[str] = xs
         self.ys = ys

@@ -50,10 +50,10 @@ class RNN(nn.Module):
     ) -> Tuple[
         torch.Tensor,
         torch.Tensor,
-        torch.Tensor
+        TensorType[1]
     ]:
         """The forward pass."""
         gru1_out, hidden = self.gru1(x, hidden)
         gru2_out = self.gru2(gru1_out)[0][::self.slow_frequency]
         z_t = self.get_prob_next_character(hidden[0])
-        return gru2_out, z_t, hidden
+        return gru2_out, hidden, z_t

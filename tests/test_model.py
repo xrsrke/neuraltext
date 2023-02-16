@@ -8,13 +8,20 @@ def test_vocab():
     assert vocab['a'] == 0
     assert vocab['b'] == 1
 
-def test_rnn():
-    x = torch.randn(100, 1, 1)
-    model = RNN(input_size=1, hidden_size=10, output_size=1)
+def test_rnn(default_config):
+    HIDDEN_SIZE = 512
+    N_CHANNELS = default_config["dataset"]["n_channels"]
+    N_VOCABS = default_config["dataset"]["n_vocabs"]
+    x = torch.randn(1, N_CHANNELS)
 
-    y, z, h = model(x)
+    model = RNN(
+        input_size=N_CHANNELS,
+        hidden_size=HIDDEN_SIZE,
+        output_size=N_VOCABS
+    )
+    character_prob, hidden, next_prob = model(x)
 
-    assert y.shape == (1, 1, 1)
-    assert z.shape == (1, 1)
-    assert h.shape == (1, 1, 10)
-    assert 0 <= z.item() <= 1
+    assert character_prob.shape == (1, N_VOCABS)
+    assert hidden.shape == (1, HIDDEN_SIZE)
+    assert next_prob.shape == (1,)
+    assert 0 <= next_prob.item() <= 1
