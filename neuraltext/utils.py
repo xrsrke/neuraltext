@@ -4,11 +4,8 @@
 __all__ = ['mat2dict', 'yaml2dict', 'get_character_data_from_a_trial']
 
 # %% ../nbs/11_utils.ipynb 4
-import re
-
 import scipy
 import yaml
-import torch
 
 # %% ../nbs/11_utils.ipynb 5
 def mat2dict(

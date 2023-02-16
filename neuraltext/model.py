@@ -29,31 +29,29 @@ class RNN(nn.Module):
         input_size: int = 192, # The firing rate
         hidden_size: int = 512,
         output_size: int = 31, # The number of vocabs
-        slow_frequency: int = 100
     ):
         super().__init__()
-        self.hidden_size = hidden_size
-        self.slow_frequency = slow_frequency
         
         self.gru1 = nn.GRU(input_size, hidden_size)
         self.gru2 = nn.GRU(hidden_size, output_size)
         self.z_layer = nn.Linear(hidden_size, 1)
     
     def get_prob_next_character(
-        self, x # The hidden state
+        self, x: TensorType["batch_size", "hidden_size"]
     ) -> TensorType[1]: # The probability of the next character
         return F.sigmoid(self.z_layer(x))
 
     def forward(
         self,
-        x: torch.Tensor, hidden: Optional[torch.Tensor] = None
+        x: TensorType["batch_size", "n_vocabs"],
+        hidden: Optional[TensorType["batch_size", "hidden_size"]] = None
     ) -> Tuple[
-        torch.Tensor,
-        torch.Tensor,
+        TensorType["batch_size", "n_vocabs"],
+        TensorType["batch_size", "hidden_size"],
         TensorType[1]
     ]:
         """The forward pass."""
         gru1_out, hidden = self.gru1(x, hidden)
-        gru2_out = self.gru2(gru1_out)[0][::self.slow_frequency]
+        gru2_out = self.gru2(gru1_out)[0]
         z_t = self.get_prob_next_character(hidden[0])
         return gru2_out, hidden, z_t

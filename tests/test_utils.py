@@ -1,5 +1,4 @@
-import pytest
-from neuraltext.utils import yaml2dict, get_character_data_from_a_trial
+from neuraltext.utils import get_character_data_from_a_trial
 
 def test_yaml2dict(default_config):
     assert default_config['dataset']['n_vocabs'] == 31
