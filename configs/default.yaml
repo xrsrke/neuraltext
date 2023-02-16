@@ -1,0 +1,5 @@
+dataset:
+  n_vocabs: 31
+  n_trials: 27
+  n_steps: 201
+  n_channels: 192
