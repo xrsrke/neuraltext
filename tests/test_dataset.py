@@ -1,11 +1,18 @@
+import torch
 from torch.utils.data import DataLoader
+
 from neuraltext.dataset import NeuralCharacterDataset, NeuralSentenceDataset
 from neuraltext.utils import get_character_data_from_a_trial
 
 def test_create_neural_character_dataset(default_config):
     data = get_character_data_from_a_trial("./data/Datasets/t5.2019.05.08/singleLetters.mat", 0)
+
     dataset = NeuralCharacterDataset(data)
+    x, y = dataset[0]
+
     assert len(dataset.vocabs) == default_config["dataset"]["n_vocabs"]
+    assert isinstance(x, int)
+    assert isinstance(y, torch.Tensor)
 
 def test_create_dataloader_from_neural_character_dataset():
     data = get_character_data_from_a_trial("./data/Datasets/t5.2019.05.08/singleLetters.mat", 0)

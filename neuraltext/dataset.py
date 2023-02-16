@@ -30,11 +30,17 @@ class NeuralCharacterDataset(Dataset):
         self.ys = ys
         self.vocabs: Set[str] = vocabs
     
+    def label2num(self, label: str) -> int:
+        return list(self.vocabs).index(label)
+    
+    def num2label(self, num: int) -> str:
+        return list(self.vocabs)[num]
+    
     def __len__(self) -> int:
         return len(self.ys)
 
     def __getitem__(self, index) -> Tuple[int, TensorType['n_step', 'n_channel']]:
-        return self.xs[index], self.ys[index]
+        return self.label2num(self.xs[index]), self.ys[index]
 
 # %% ../nbs/05_dataset.ipynb 8
 class NeuralSentenceDataset(Dataset):
