@@ -4,20 +4,20 @@
 __all__ = ['get_vocab', 'RNN']
 
 # %% ../nbs/12_model.ipynb 4
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Dict
 
-import torch
 from torch import nn
 import torch.nn.functional as F
+
 from torchtyping import TensorType
+from einops import rearrange
 
 # %% ../nbs/12_model.ipynb 5
-def get_vocab():
+def get_vocab() -> Dict[str, int]:
     chars = ['a','b','c','d','e','f','g','h','i','j',
              'k','l','m','n','o','p','q','r','s','t',
              'u','v','w','x','y','z', '>',',',"'",'~','?'
     ]
-    
     return {c: i for i, c in enumerate(chars)}
     
 
@@ -31,14 +31,13 @@ class RNN(nn.Module):
         output_size: int = 31, # The number of vocabs
     ):
         super().__init__()
-        
         self.gru1 = nn.GRU(input_size, hidden_size)
         self.gru2 = nn.GRU(hidden_size, output_size)
         self.z_layer = nn.Linear(hidden_size, 1)
     
     def get_prob_next_character(
         self, x: TensorType["batch_size", "hidden_size"]
-    ) -> TensorType[1]: # The probability of the next character
+    ) -> TensorType[1]: # The probability that there will be a next character
         return F.sigmoid(self.z_layer(x))
 
     def forward(
@@ -53,5 +52,6 @@ class RNN(nn.Module):
         """The forward pass."""
         gru1_out, hidden = self.gru1(x, hidden)
         gru2_out = self.gru2(gru1_out)[0]
-        z_t = self.get_prob_next_character(hidden[0])
+        z_t = self.get_prob_next_character(hidden)
+        z_t = rearrange(z_t, '1 b -> b')
         return gru2_out, hidden, z_t

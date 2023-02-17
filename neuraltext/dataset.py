@@ -4,12 +4,12 @@
 __all__ = ['NeuralCharacterDataset', 'NeuralSentenceDataset']
 
 # %% ../nbs/05_dataset.ipynb 4
-import re
 from typing import Optional, List, Tuple, Set
 
 import torch
 from torch.utils.data import Dataset
 from torchtyping import TensorType
+from transformers import AutoTokenizer
 
 from .utils import mat2dict
 
@@ -19,30 +19,43 @@ class NeuralCharacterDataset(Dataset):
         xs = []
         ys = []
         vocabs = set()
+        
+        tokenizer = AutoTokenizer.from_pretrained("gpt2")
+        
         for letter, items in data.items():
             vocabs.add(letter)
             
             for item in items:
-                xs.append(letter)
+                tokenized_letter = tokenizer(letter)["input_ids"][0]
+                xs.append(tokenized_letter)
                 ys.append(torch.tensor(item).float())
         
         self.xs: List[str] = xs
         self.ys = ys
         self.vocabs: Set[str] = vocabs
     
-    def label2num(self, label: str) -> int:
-        return list(self.vocabs).index(label)
-    
-    def num2label(self, num: int) -> str:
-        return list(self.vocabs)[num]
-    
     def __len__(self) -> int:
         return len(self.ys)
 
     def __getitem__(self, index) -> Tuple[int, TensorType['n_step', 'n_channel']]:
-        return self.label2num(self.xs[index]), self.ys[index]
+        return self.xs[index], self.ys[index]
 
 # %% ../nbs/05_dataset.ipynb 8
 class NeuralSentenceDataset(Dataset):
-    def __init__(self):
-        pass
+    """Dataset for neural sentences."""
+    def __init__(self, data, tokenizer):
+        xs = []
+        ys = []
+        
+        for sentence, neural_data in data:
+            tokenized_sentence = tokenizer(sentence, return_tensors="pt")["input_ids"][0]
+            xs.append(tokenized_sentence)
+            ys.append(torch.tensor(neural_data).float())
+        
+        self.xs = xs
+        self.ys = ys
+    
+    def __getitem__(
+        self, index: int
+    ) -> Tuple[TensorType["seq_len"], TensorType["n_steps", "n_channels"]]:
+        return self.xs[index], self.ys[index]

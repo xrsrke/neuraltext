@@ -4,6 +4,9 @@ dataset:
   n_steps: 201
   n_channels: 192
 
+tokenizer:
+  name: "gpt2"
+
 train:
   epochs: 2
   batch_size: 2

@@ -8,20 +8,22 @@ def test_vocab():
     assert vocab['a'] == 0
     assert vocab['b'] == 1
 
-def test_rnn(default_config):
+def test_rnn_forward_pass_without_hidden(default_config):
     HIDDEN_SIZE = 512
     N_CHANNELS = default_config["dataset"]["n_channels"]
     N_VOCABS = default_config["dataset"]["n_vocabs"]
-    x = torch.randn(1, N_CHANNELS)
+    BATCH_SIZE = 1
+
+    x = torch.randn(BATCH_SIZE, N_CHANNELS)
 
     model = RNN(
         input_size=N_CHANNELS,
         hidden_size=HIDDEN_SIZE,
         output_size=N_VOCABS
     )
-    character_prob, hidden, next_prob = model(x)
+    character_prob, hidden, next_prob = model(x, hidden=None)
 
-    assert character_prob.shape == (1, N_VOCABS)
-    assert hidden.shape == (1, HIDDEN_SIZE)
-    assert next_prob.shape == (1,)
-    assert 0 <= next_prob.item() <= 1
+    assert character_prob.shape == (BATCH_SIZE, N_VOCABS)
+    assert hidden.shape == (BATCH_SIZE, HIDDEN_SIZE)
+    assert next_prob.shape == (BATCH_SIZE,)
+    assert 0 <= next_prob[0] <= 1
