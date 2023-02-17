@@ -4,23 +4,18 @@
 __all__ = ['NeuralCharacterDataset', 'NeuralSentenceDataset']
 
 # %% ../nbs/05_dataset.ipynb 4
-from typing import Optional, List, Tuple, Set
+from typing import List, Tuple, Set, Callable
 
 import torch
 from torch.utils.data import Dataset
 from torchtyping import TensorType
-from transformers import AutoTokenizer
-
-from .utils import mat2dict
 
 # %% ../nbs/05_dataset.ipynb 7
 class NeuralCharacterDataset(Dataset):
-    def __init__(self, data: dict):
+    def __init__(self, data: dict, tokenizer):
         xs = []
         ys = []
         vocabs = set()
-        
-        tokenizer = AutoTokenizer.from_pretrained("gpt2")
         
         for letter, items in data.items():
             vocabs.add(letter)
@@ -43,7 +38,7 @@ class NeuralCharacterDataset(Dataset):
 # %% ../nbs/05_dataset.ipynb 8
 class NeuralSentenceDataset(Dataset):
     """Dataset for neural sentences."""
-    def __init__(self, data, tokenizer):
+    def __init__(self, data, tokenizer: Callable):
         xs = []
         ys = []
         
