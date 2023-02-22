@@ -3,6 +3,9 @@ dataset:
   n_trials: 27
   n_steps: 201
   n_channels: 192
+  raw_data_path: "./data/sessions"
+  snippet_path: "./data/snippets"
+  synthetic_path: "./data/synthetic"
 
 tokenizer:
   name: "gpt2"

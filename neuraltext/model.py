@@ -19,7 +19,6 @@ def get_vocab() -> Dict[str, int]:
              'u','v','w','x','y','z', '>',',',"'",'~','?'
     ]
     return {c: i for i, c in enumerate(chars)}
-    
 
 # %% ../nbs/12_model.ipynb 8
 class RNN(nn.Module):

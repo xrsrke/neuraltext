@@ -134,3 +134,5 @@ drafts
 .DS_Store
 .vscode
 .vscode/*
+
+!data/english/10000-english-words.txt
