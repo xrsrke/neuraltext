@@ -21,9 +21,12 @@ def test_rnn_forward_pass_without_hidden(default_config):
         hidden_size=HIDDEN_SIZE,
         output_size=N_VOCABS
     )
-    character_prob, hidden, next_prob = model(x, hidden=None)
+    character_probs, hidden, next_prob = model(x, hidden=None)
 
-    assert character_prob.shape == (BATCH_SIZE, N_VOCABS)
+    assert character_probs.shape == (BATCH_SIZE, N_VOCABS)
     assert hidden.shape == (BATCH_SIZE, HIDDEN_SIZE)
     assert next_prob.shape == (BATCH_SIZE,)
+
+    assert torch.allclose(torch.sum(character_probs, dim=-1), torch.tensor(1.0))
+    assert torch.all(character_probs >= 0), "Values must be non-negative"
     assert 0 <= next_prob[0] <= 1

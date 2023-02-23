@@ -44,13 +44,13 @@ class RNN(nn.Module):
         x: TensorType["batch_size", "n_vocabs"],
         hidden: Optional[TensorType["batch_size", "hidden_size"]] = None
     ) -> Tuple[
-        TensorType["batch_size", "n_vocabs"],
+        TensorType["batch_size", "n_vocabs"], # the probabilty for each character
         TensorType["batch_size", "hidden_size"],
         TensorType[1]
     ]:
         """The forward pass."""
         gru1_out, hidden = self.gru1(x, hidden)
-        gru2_out = self.gru2(gru1_out)[0]
+        probs = F.softmax(self.gru2(gru1_out)[0], dim=-1)
         z_t = self.get_prob_next_character(hidden)
         z_t = rearrange(z_t, '1 b -> b')
-        return gru2_out, hidden, z_t
+        return probs, hidden, z_t
