@@ -1,8 +1,8 @@
 import torch
-from neuraltext.model import RNN, get_vocab
+from neuraltext.model import RNN, get_vocabs
 
 def test_vocab():
-    vocab = get_vocab()
+    vocab = get_vocabs()
 
     assert len(vocab) == 31
     assert vocab['a'] == 0

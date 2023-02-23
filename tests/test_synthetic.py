@@ -9,9 +9,7 @@ def test_load_word_snippet():
 
 ### SNIPPET
 def test_load_snippet():
-    path = "./data/snippets/t5.2020.01.13_snippets.mat"
-
-    data = load_snippet(path, "a")
+    data = load_snippet("a")
 
     # TODO: why z = (1, 13)
     assert data.shape == (1, 92)
