@@ -1,5 +1,6 @@
 import torch
-from neuraltext.model import RNN, get_vocabs
+from neuraltext.model import RNN
+from neuraltext.dataset import get_vocabs
 
 def test_vocab():
     vocab = get_vocabs()

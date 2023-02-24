@@ -12,8 +12,6 @@ import torch.nn.functional as F
 from torchtyping import TensorType
 from einops import rearrange
 
-from .dataset import get_vocabs
-
 # %% ../nbs/12_model.ipynb 7
 class RNN(nn.Module):
     """The Decoder Neural Signal."""
