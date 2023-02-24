@@ -6,6 +6,8 @@ from neuraltext.utils import get_character_data_from_a_trial, get_sentence_data
 
 def test_create_neural_character_dataset(default_config, tokenizer):
     N_CHANNELS = default_config["dataset"]["n_channels"]
+    N_VOCABS = default_config["dataset"]["n_vocabs"]
+
     data = get_character_data_from_a_trial("./data/Datasets/t5.2019.05.08/singleLetters.mat", 0)
 
     dataset = NeuralCharacterDataset(data, tokenizer)
@@ -14,6 +16,7 @@ def test_create_neural_character_dataset(default_config, tokenizer):
     assert len(dataset.vocabs) == default_config["dataset"]["n_vocabs"]
     assert isinstance(x, int)
     assert isinstance(y, torch.Tensor)
+    assert 0 <= x <= N_VOCABS
     assert y.ndim == 1
     assert y.shape[-1] == N_CHANNELS
 

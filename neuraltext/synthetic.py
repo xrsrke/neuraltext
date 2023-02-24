@@ -12,10 +12,10 @@ import torch
 import torch.nn.functional as F
 from torchtyping import TensorType
 
-from .model import get_vocabs
+from .dataset import get_vocabs
 from .utils import mat2dict
 
-# %% ../nbs/06_synthetic.ipynb 7
+# %% ../nbs/06_synthetic.ipynb 6
 def load_snippet(character: str, path: str = "./data/snippets/t5.2020.01.13_snippets.mat"):
     vocabs = get_vocabs().keys()
     assert character in vocabs, f"Vocab {character} not found"
@@ -25,7 +25,7 @@ def load_snippet(character: str, path: str = "./data/snippets/t5.2020.01.13_snip
     snippets = mat2dict(path)
     return snippets[character]
 
-# %% ../nbs/06_synthetic.ipynb 9
+# %% ../nbs/06_synthetic.ipynb 8
 def generate_random_sentence(
     length: int, # The number of words in the sentence
     vocab_path: str = "./data/english/1000-english-words.json" # The path to the vocabulary
@@ -37,7 +37,7 @@ def generate_random_sentence(
     text = " ".join([words[str(idx)] for idx in idxs])
     return text
 
-# %% ../nbs/06_synthetic.ipynb 13
+# %% ../nbs/06_synthetic.ipynb 12
 class SyntheticSentence:
     def __init__(self):
         self.vocabs = get_vocabs()
